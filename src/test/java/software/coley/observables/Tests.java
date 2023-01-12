@@ -3,6 +3,9 @@ package software.coley.observables;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Tests {
@@ -267,6 +270,38 @@ public class Tests {
 			intA.setValue(0.999999);
 			assertEquals("0.999999", stringA.getValue());
 			assertEquals("1.000", stringB.getValue());
+		}
+	}
+
+	@Nested
+	class Collections {
+		@Test
+		void testMapListSize() {
+			ObservableCollection<String, List<String>> list = new ObservableCollection<>(ArrayList::new);
+			ObservableInteger listSize = list.mapInt(List::size);
+			assertEquals(0, listSize.getValue());
+			// Add to list
+			list.add("one");
+			assertEquals(1, listSize.getValue());
+			// Remove from list
+			list.remove("one");
+			assertEquals(0, listSize.getValue());
+		}
+
+		@Test
+		void testMapListContains() {
+			ObservableCollection<String, List<String>> list = new ObservableCollection<>(ArrayList::new);
+			ObservableBoolean listSize = list.mapBoolean(l -> l.contains("target"));
+			assertFalse(listSize.getValue());
+			// Add bogus list
+			list.add("not it");
+			assertFalse(listSize.getValue());
+			// Add target to list
+			list.add("target");
+			assertTrue(listSize.getValue());
+			// Remove from list
+			list.remove("target");
+			assertFalse(listSize.getValue());
 		}
 	}
 }
