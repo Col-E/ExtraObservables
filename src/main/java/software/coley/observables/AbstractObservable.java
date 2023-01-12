@@ -166,6 +166,18 @@ public class AbstractObservable<T> implements Observable {
 	 * @param <R>
 	 * 		Type to map to.
 	 *
+	 * @return Mapped value, not boxed in an {@link AbstractObservable}.
+	 */
+	public <R> R unboxingMap(Function<T, R> valueMapper) {
+		return valueMapper.apply(getValue());
+	}
+
+	/**
+	 * @param valueMapper
+	 * 		Mapping function to use.
+	 * @param <R>
+	 * 		Type to map to.
+	 *
 	 * @return Observable object of type, with mapped value from this observable.
 	 */
 	public <R> ObservableObject<R> mapObject(Function<T, R> valueMapper) {
