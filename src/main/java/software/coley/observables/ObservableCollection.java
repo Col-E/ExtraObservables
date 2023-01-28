@@ -81,9 +81,11 @@ public class ObservableCollection<T, C extends Collection<T>> extends Observable
 		}
 
 		// Trigger update in listener by resetting value
-		C copy = collectionConstructor.get();
-		copy.addAll(getValue());
-		setValue(copy);
+		if (removed) {
+			C copy = collectionConstructor.get();
+			copy.addAll(getValue());
+			setValue(copy);
+		}
 		return removed;
 	}
 
