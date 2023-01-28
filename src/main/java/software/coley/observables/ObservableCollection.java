@@ -2,7 +2,9 @@ package software.coley.observables;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -64,6 +66,25 @@ public class ObservableCollection<T, C extends Collection<T>> extends Observable
 	@Override
 	public Iterator<T> iterator() {
 		return getValue().iterator();
+	}
+
+	@Override
+	public boolean removeIf(Predicate<? super T> filter) {
+		Objects.requireNonNull(filter);
+		boolean removed = false;
+		final Iterator<T> each = iterator();
+		while (each.hasNext()) {
+			if (filter.test(each.next())) {
+				each.remove();
+				removed = true;
+			}
+		}
+
+		// Trigger update in listener by resetting value
+		C copy = collectionConstructor.get();
+		copy.addAll(getValue());
+		setValue(copy);
+		return removed;
 	}
 
 	@Override
