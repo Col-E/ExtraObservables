@@ -58,12 +58,19 @@ public class NumberUtil {
 	 * @return Decimal number, either {@link Float} or {@link Double}.
 	 */
 	private static Result parseDecimal(String text) {
+		text = text.toUpperCase();
 		if (text.endsWith("F"))
 			return new Result(Float.parseFloat(text.substring(0, text.indexOf("F"))), Float.class);
-		else if (text.endsWith("D") || text.contains("."))
-			return new Result(Double.parseDouble(text.substring(0, text.indexOf("D"))), Double.class);
-		else
+
+		// Cut off 'D' suffix
+		if (text.endsWith("D"))
+			text = text.substring(text.length() - 1);
+
+		// Handle as double/int
+		if (text.contains("."))
 			return new Result(Double.parseDouble(text), Double.class);
+		else
+			return new Result(Integer.parseInt(text), Integer.class);
 	}
 
 	/**
