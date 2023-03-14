@@ -1,5 +1,5 @@
 project:
-  name: extraobservables
+  name: extra-observables
   description: Observable types for general usage
   longDescription: Observable types for general usage, similar to properties from JavaFX
   links:
@@ -24,7 +24,7 @@ release:
         format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
 
 distributions:
-  extraobservables:
+  dist:
     type: SINGLE_JAR
     artifacts:
-      - path: target/{{distributionName}}-{{projectVersion}}.jar
+      - path: target/{{projectName}}-{{projectVersion}}.jar
