@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -302,6 +304,22 @@ public class ObservableTests {
 			// Remove from list
 			list.remove("target");
 			assertFalse(listSize.getValue());
+		}
+	}
+
+	@Nested
+	class Maps {
+		@Test
+		void testMapMapSize() {
+			ObservableMap<String, String, Map<String, String>> map = new ObservableMap<>(HashMap::new);
+			ObservableInteger mapSize = map.mapInt(Map::size);
+			assertEquals(0, mapSize.getValue());
+			// Add to map
+			map.put("one", "a");
+			assertEquals(1, mapSize.getValue());
+			// Remove from map
+			map.remove("one");
+			assertEquals(0, mapSize.getValue());
 		}
 	}
 }
