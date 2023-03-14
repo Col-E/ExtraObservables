@@ -50,10 +50,7 @@ jobs:
             **/hs_err_pid*
             
       # Set JReleaser version: "var_to_set=$(command_to_run)" >> sink
-      - run: echo "JRELEASER_PROJECT_VERSION=vTest" >> $GITHUB_ENV
-      
-      - run: echo ${{ env.JRELEASER_PROJECT_VERSION }}
-      - run: echo $JRELEASER_PROJECT_VERSION
+      - run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       
       # Make release with JReleaser
       - name: Release
@@ -61,7 +58,7 @@ jobs:
         with:
           arguments: full-release
         env:
-          JRELEASER_PROJECT_VERSION: ${{ needs.precheck.outputs.VERSION }}
+          JRELEASER_PROJECT_VERSION: ${{ env.JRELEASER_PROJECT_VERSION }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       # Upload JRelease debug log
