@@ -13,7 +13,7 @@ public class ObservableFloat extends ObservableNumber<Float> {
 	 * 		Initial value.
 	 */
 	public ObservableFloat(float value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

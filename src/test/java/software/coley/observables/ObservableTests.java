@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Tests {
+public class ObservableTests {
 	@Nested
 	class Integers {
 		@Test

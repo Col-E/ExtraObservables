@@ -13,7 +13,7 @@ public class ObservableLong extends ObservableNumber<Long> {
 	 * 		Initial value.
 	 */
 	public ObservableLong(long value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

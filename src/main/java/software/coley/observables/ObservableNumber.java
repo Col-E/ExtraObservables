@@ -20,7 +20,7 @@ public class ObservableNumber<N extends Number> extends AbstractObservable<N> {
 	 * 		Initial value.
 	 */
 	public ObservableNumber(N value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

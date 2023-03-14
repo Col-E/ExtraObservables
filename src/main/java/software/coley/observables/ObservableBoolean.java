@@ -14,7 +14,7 @@ public class ObservableBoolean extends AbstractObservable<Boolean> {
 	 * 		Initial value.
 	 */
 	public ObservableBoolean(boolean value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

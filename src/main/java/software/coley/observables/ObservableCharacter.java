@@ -14,7 +14,7 @@ public class ObservableCharacter extends AbstractObservable<Character> {
 	 * 		Initial value.
 	 */
 	public ObservableCharacter(char value) {
-		this(value, null);
+		super(value);
 	}
 
 	@Override

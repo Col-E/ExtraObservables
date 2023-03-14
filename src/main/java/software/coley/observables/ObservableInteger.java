@@ -13,7 +13,7 @@ public class ObservableInteger extends ObservableNumber<Integer> {
 	 * 		Initial value.
 	 */
 	public ObservableInteger(int value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

@@ -16,7 +16,7 @@ public class ObservableObject<T> extends AbstractObservable<T> {
 	 * 		Initial value.
 	 */
 	public ObservableObject(T value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

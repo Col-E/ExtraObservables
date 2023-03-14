@@ -13,7 +13,7 @@ public class ObservableByte extends ObservableNumber<Byte> {
 	 * 		Initial value.
 	 */
 	public ObservableByte(byte value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

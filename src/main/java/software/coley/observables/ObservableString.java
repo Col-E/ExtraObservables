@@ -13,7 +13,7 @@ public class ObservableString extends ObservableObject<String> {
 	 * 		Initial value.
 	 */
 	public ObservableString(String value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**

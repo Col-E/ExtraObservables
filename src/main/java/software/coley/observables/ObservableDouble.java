@@ -13,7 +13,7 @@ public class ObservableDouble extends ObservableNumber<Double> {
 	 * 		Initial value.
 	 */
 	public ObservableDouble(double value) {
-		this(value, null);
+		super(value);
 	}
 
 	/**
