@@ -50,7 +50,10 @@ jobs:
             **/hs_err_pid*
             
       # Set JReleaser version: "var_to_set=$(command_to_run)" >> sink
-      - run: echo "JRELEASER_PROJECT_VERSION=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+      - run: echo "JRELEASER_PROJECT_VERSION=vTest" >> $GITHUB_ENV
+      
+      - run: echo ${{ env.JRELEASER_PROJECT_VERSION }}
+      - run: echo $JRELEASER_PROJECT_VERSION
       
       # Make release with JReleaser
       - name: Release
