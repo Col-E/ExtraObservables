@@ -50,7 +50,7 @@ jobs:
             **/hs_err_pid*
             
       # Set JReleaser version: "var_to_set=$(command_to_run)" >> sink
-      - run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      - run: echo "JRELEASER_PROJECT_VERSION=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
       
       # Make release with JReleaser
       - name: Release
@@ -70,3 +70,15 @@ jobs:
           path: |
             out/jreleaser/trace.log
             out/jreleaser/output.properties
+
+  # Taken from: https://github.com/EnricoMi/publish-unit-test-result-action/blob/v1.20/README.md#support-fork-repositories-and-dependabot-branches
+  #  - Required for test-results to be published
+  event_file:
+    name: "Event File"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Event File
+          path: ${{ github.event_path }}
