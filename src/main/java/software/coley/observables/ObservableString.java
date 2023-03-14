@@ -1,5 +1,7 @@
 package software.coley.observables;
 
+import software.coley.observables.util.NumberUtil;
+
 import java.util.function.Function;
 
 /**
@@ -26,5 +28,17 @@ public class ObservableString extends ObservableObject<String> {
 	 */
 	public <I> ObservableString(String value, Function<I, String> boundValueMapper) {
 		super(value, boundValueMapper);
+	}
+
+	/**
+	 * @return Number mapped from the current text of this value.
+	 *
+	 * @see NumberUtil#parse(String)
+	 */
+	public ObservableNumber<Number> mapNumber() {
+		Function<String, Number> valueMapper = text -> NumberUtil.parse(text).getValue();
+		ObservableNumber<Number> observable = new ObservableNumber<>(valueMapper.apply(getValue()), valueMapper);
+		observable.bindTo(this);
+		return observable;
 	}
 }

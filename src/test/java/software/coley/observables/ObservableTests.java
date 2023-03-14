@@ -260,6 +260,7 @@ public class ObservableTests {
 			assertEquals("10", stringA.getValue());
 			intA.setValue(20);
 			assertEquals("20", stringA.getValue());
+			assertEquals(20, stringA.mapNumber().getValue());
 		}
 
 		@Test
@@ -272,6 +273,7 @@ public class ObservableTests {
 			intA.setValue(0.999999);
 			assertEquals("0.999999", stringA.getValue());
 			assertEquals("1.000", stringB.getValue());
+			assertEquals(1.0, stringB.mapNumber().getValue());
 		}
 	}
 
