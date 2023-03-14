@@ -1,0 +1,31 @@
+project:
+  name: extra-observables
+  description: Observable types for general usage
+  longDescription: Observable types for general usage, similar to properties from JavaFX
+  links:
+    homepage: https://github.com/Col-E/ExtraObservables
+  authors:
+    - Matt Coley
+  license: MIT
+  inceptionYear: 2022
+  stereotype: none
+  java:
+    version: 11
+    groupId: software.coley
+    artifactId: extra-observables
+
+release:
+  github:
+    overwrite: true
+    tagName: '{{projectVersion}}'
+    changelog:
+      formatted: ALWAYS
+      preset: conventional-commits
+      contributors:
+        format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
+
+distributions:
+  dist:
+    type: SINGLE_JAR
+    artifacts:
+      - path: target/{{projectName}}-{{projectVersion}}.jar
