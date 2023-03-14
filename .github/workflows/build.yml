@@ -34,7 +34,11 @@ jobs:
         with:
           distribution: adopt-hotspot
           java-version: ${{ matrix.java-version }}
+      
+      # Run tests & build artifact
       - run: ./mvnw package
+      
+      # Upload test results
       - name: Upload Test Results
         uses: actions/upload-artifact@v2.3.1
         if: always()
@@ -44,6 +48,11 @@ jobs:
           path: |
             **/TEST-*
             **/hs_err_pid*
+            
+      # Set JReleaser version: "var_to_set=$(command_to_run)" >> sink
+      - run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      
+      # Make release with JReleaser
       - name: Release
         uses: jreleaser/release-action@v2
         with:
@@ -51,6 +60,8 @@ jobs:
         env:
           JRELEASER_PROJECT_VERSION: ${{ needs.precheck.outputs.VERSION }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Upload JRelease debug log
       - name: JReleaser output
         if: always()
         uses: actions/upload-artifact@v3
@@ -58,14 +69,4 @@ jobs:
           name: jreleaser-release
           path: |
             out/jreleaser/trace.log
-            out/jreleaser/output.properties   
-  # taken from: https://github.com/EnricoMi/publish-unit-test-result-action/blob/v1.20/README.md#support-fork-repositories-and-dependabot-branches
-  event_file:
-    name: "Event File"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: Event File
-          path: ${{ github.event_path }}
+            out/jreleaser/output.properties
