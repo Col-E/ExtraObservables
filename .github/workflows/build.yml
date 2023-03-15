@@ -37,7 +37,8 @@ jobs:
           java-version: ${{ matrix.java-version }}
       
       # Run tests & build artifact
-      - run: ./mvnw package
+      - name: Run tests & build release
+        run: ./mvnw package
       
       # Upload test results
       - name: Upload Test Results
@@ -53,7 +54,8 @@ jobs:
       # Set JReleaser version to the project version: "var_to_set=$(command_to_run)" >> sink
       #  - For maven:  echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       #  - For gradle: echo "JRELEASER_PROJECT_VERSION=$(./gradlew properties | grep -Po '(?<=version: ).*')" >> $GITHUB_ENV
-      - run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      - name: Extract project version to environment variable
+        run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       # Check if a tag exists that matches the current project version.
       - name: 'Check: package version has corrosponding git tag'

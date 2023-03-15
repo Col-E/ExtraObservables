@@ -17,7 +17,7 @@ project:
 release:
   github:
     overwrite: true
-    tagName: {{projectVersion}}
+    tagName: '{{projectVersion}}'
     changelog:
       formatted: ALWAYS
       preset: conventional-commits
