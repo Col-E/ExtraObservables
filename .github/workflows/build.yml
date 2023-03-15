@@ -58,14 +58,15 @@ jobs:
         run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       # Check if a tag exists that matches the current project version.
+      # Write the existence state to the step output 'tagExists'.
       - name: 'Check: package version has corrosponding git tag'
         id: tagged
         shell: bash
-        run: git show-ref --tags --verify --quiet -- "refs/tags/${{ env.JRELEASER_PROJECT_VERSION }}" && echo "::set-output name=tag-exists::1" || echo "::set-output name=tag-exists::0"
+        run: git show-ref --tags --verify --quiet -- "refs/tags/${{ env.JRELEASER_PROJECT_VERSION }}" && echo "tagExists=1" >> $GITHUB_OUTPUT || echo "tagExists=0" >> $GITHUB_OUTPUT
       
       # Make release with JReleaser, only running when the project version does not exist as a tag on the repository.
       - name: Release
-        if: steps.tagged.outputs.tag-exists == 0
+        if: steps.tagged.outputs.tagExists == 0
         uses: jreleaser/release-action@v2
         with:
           arguments: full-release
@@ -75,7 +76,7 @@ jobs:
       
       # Upload JRelease debug log
       - name: JReleaser output
-        if: steps.tagged.outputs.tag-exists == 0
+        if: steps.tagged.outputs.tagExists == 0
         uses: actions/upload-artifact@v3
         with:
           name: jreleaser-release
