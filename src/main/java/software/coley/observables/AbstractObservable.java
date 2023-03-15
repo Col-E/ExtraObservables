@@ -11,7 +11,7 @@ import java.util.function.Function;
  *
  * @author Matt Coley
  */
-public class AbstractObservable<T> implements Observable<T> {
+public abstract class AbstractObservable<T> implements Observable<T> {
 	private final List<ChangeListener<T>> changeListeners = new ArrayList<>();
 	@SuppressWarnings("rawtypes") // has to be raw for generic usage to compile, cannot use '?'
 	private final Set<Observable> bindReceivers = Collections.newSetFromMap(new IdentityHashMap<>());
