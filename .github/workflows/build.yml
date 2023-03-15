@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Required depth for JReleaser
       - name: Setup Java JDK
         uses: actions/setup-java@v2.5.0
         with:
@@ -49,12 +49,21 @@ jobs:
           path: |
             **/TEST-*
             **/hs_err_pid*
-            
-      # Set JReleaser version: "var_to_set=$(command_to_run)" >> sink
+
+      # Set JReleaser version to the project version: "var_to_set=$(command_to_run)" >> sink
+      #  - For maven:  echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      #  - For gradle: echo "JRELEASER_PROJECT_VERSION=$(./gradlew properties | grep -Po '(?<=version: ).*')" >> $GITHUB_ENV
       - run: echo "JRELEASER_PROJECT_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      # Check if a tag exists that matches the current project version.
+      - name: 'Check: package version has corrosponding git tag'
+        id: tagged
+        shell: bash
+        run: git show-ref --tags --verify --quiet -- "refs/tags/${{ env.JRELEASER_PROJECT_VERSION }}" && echo "::set-output name=tag-exists::1" || echo "::set-output name=tag-exists::0"
       
-      # Make release with JReleaser
+      # Make release with JReleaser, only running when the project version does not exist as a tag on the repository.
       - name: Release
+        if: steps.tagged.outputs.tag-exists == 0
         uses: jreleaser/release-action@v2
         with:
           arguments: full-release
@@ -64,7 +73,7 @@ jobs:
       
       # Upload JRelease debug log
       - name: JReleaser output
-        if: always()
+        if: steps.tagged.outputs.tag-exists == 0
         uses: actions/upload-artifact@v3
         with:
           name: jreleaser-release
