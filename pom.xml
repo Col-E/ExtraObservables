@@ -8,6 +8,28 @@
     <artifactId>extra-observables</artifactId>
     <version>1.2.1</version>
 
+    <name>Extra Observables</name>
+    <description>Simple observables for common types</description>
+    <url>https://github.com/Col-E/ExtraObservables</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>https://spdx.org/licenses/MIT.html</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/Col-E/ExtraObservables.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Col-E/ExtraObservables.git</developerConnection>
+        <url>https://github.com/Col-E/ExtraObservables</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>Matt Coley</name>
+            <email>mcoley2@gmu.edu</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
