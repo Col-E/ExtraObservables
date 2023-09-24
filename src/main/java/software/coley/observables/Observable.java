@@ -1,6 +1,7 @@
 package software.coley.observables;
 
 import java.util.Set;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
@@ -38,9 +39,9 @@ public interface Observable<T> {
 	 * @param listener
 	 * 		Lister to add to receive value changes.
 	 * @param executor
-	 * 		Executor service to run async listener on.
+	 * 		Executor to run the listener on.
 	 */
-	void addAsyncChangeListener(ChangeListener<T> listener, ExecutorService executor);
+	void addAsyncChangeListener(ChangeListener<T> listener, Executor executor);
 
 	/**
 	 * @param listener

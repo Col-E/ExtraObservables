@@ -2,6 +2,7 @@ package software.coley.observables;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
@@ -96,7 +97,7 @@ public abstract class AbstractObservable<T> implements Observable<T> {
 	}
 
 	@Override
-	public void addAsyncChangeListener(ChangeListener<T> listener, ExecutorService executor) {
+	public void addAsyncChangeListener(ChangeListener<T> listener, Executor executor) {
 		Objects.requireNonNull(listener, "Listener must not be null");
 		Objects.requireNonNull(executor, "Executor service must not be null");
 
