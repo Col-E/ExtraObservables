@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ObservableTests {
+public class ValueTests {
 	@Nested
 	class Integers {
 		@Test

@@ -42,6 +42,147 @@ public class ObservableNumber<N extends Number> extends AbstractObservable<N> {
 	}
 
 	/**
+	 * Update the current value by adding the given number.
+	 *
+	 * @param value
+	 * 		Value to increment by.
+	 *
+	 * @return The updated value.
+	 */
+	public N add(N value) {
+		return setNumberValue(NumberUtil.add(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by subtracting the given number.
+	 *
+	 * @param value
+	 * 		Value to decrement by.
+	 *
+	 * @return The updated value.
+	 */
+	public N subtract(N value) {
+		return setNumberValue(NumberUtil.sub(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by multiplying by the given number.
+	 *
+	 * @param value
+	 * 		Value to multiply by.
+	 *
+	 * @return The updated value.
+	 */
+	public N multiply(N value) {
+		return setNumberValue(NumberUtil.mul(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by dividing by the given number.
+	 *
+	 * @param value
+	 * 		Value to divide by.
+	 *
+	 * @return The updated value.
+	 */
+	public N divide(N value) {
+		return setNumberValue(NumberUtil.div(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value getting the modulo remainder with the given number.
+	 *
+	 * @param value
+	 * 		Value to modulo by.
+	 *
+	 * @return The updated value.
+	 */
+	public N remainder(N value) {
+		return setNumberValue(NumberUtil.rem(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by bitwise AND'ing with the given number.
+	 *
+	 * @param value
+	 * 		Value to AND with.
+	 *
+	 * @return The updated value.
+	 */
+	public N and(N value) {
+		return setNumberValue(NumberUtil.add(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by bitwise OR'ing with the given number.
+	 *
+	 * @param value
+	 * 		Value to OR with.
+	 *
+	 * @return The updated value.
+	 */
+	public N or(N value) {
+		return setNumberValue(NumberUtil.or(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by bitwise XOR'ing with the given number.
+	 *
+	 * @param value
+	 * 		Value to XOR with.
+	 *
+	 * @return The updated value.
+	 */
+	public N xor(N value) {
+		return setNumberValue(NumberUtil.xor(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by bitwise shifting left with the given number.
+	 *
+	 * @param value
+	 * 		Value to shift by.
+	 *
+	 * @return The updated value.
+	 */
+	public N shiftLeft(N value) {
+		return setNumberValue(NumberUtil.shiftLeft(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by bitwise shifting right with the given number.
+	 *
+	 * @param value
+	 * 		Value to shift by.
+	 *
+	 * @return The updated value.
+	 */
+	public N shiftRight(N value) {
+		return setNumberValue(NumberUtil.shiftRight(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by bitwise shifting right with the given number.
+	 *
+	 * @param value
+	 * 		Value to shift by.
+	 *
+	 * @return The updated value.
+	 */
+	public N shiftRightUnsigned(N value) {
+		return setNumberValue(NumberUtil.shiftRightU(getValue(), value).getValue());
+	}
+
+	/**
+	 * Update the current value by negating it.
+	 *
+	 * @return The updated value.
+	 */
+	public N negate() {
+		return setNumberValue(NumberUtil.neg(getValue()).getValue());
+	}
+
+	/**
 	 * @return Observable {@code byte}, with mapped value from this observable.
 	 */
 	public ObservableByte mapAsByte() {
@@ -230,5 +371,18 @@ public class ObservableNumber<N extends Number> extends AbstractObservable<N> {
 	 */
 	public ObservableNumber<? extends Number> mapShiftRightUnsigned(N value) {
 		return mapFunction(value, NumberUtil::shiftRightU);
+	}
+
+	/**
+	 * @param value
+	 * 		New value to set.
+	 *
+	 * @return Value as correct generic type.
+	 */
+	@SuppressWarnings("unchecked")
+	private N setNumberValue(Number value) {
+		N actual = (N) value;
+		setValue(actual);
+		return actual;
 	}
 }
