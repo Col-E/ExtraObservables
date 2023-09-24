@@ -10,10 +10,15 @@ import java.util.function.Supplier;
 /**
  * Observable for generic collections.
  *
+ * @param <T>
+ * 		Collection value type.
+ * @param <C>
+ * 		Collection type.
+ *
  * @author Matt Coley
  */
 public class ObservableCollection<T, C extends Collection<T>> extends ObservableObject<C> implements Collection<T> {
-	private final Supplier<C> collectionConstructor;
+	protected final Supplier<C> collectionConstructor;
 
 	/**
 	 * @param collectionConstructor
