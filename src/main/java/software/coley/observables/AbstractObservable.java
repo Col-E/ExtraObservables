@@ -1,6 +1,8 @@
 package software.coley.observables;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
 /**
@@ -12,6 +14,7 @@ import java.util.function.Function;
  * @author Matt Coley
  */
 public abstract class AbstractObservable<T> implements Observable<T> {
+	private final Map<ChangeListener<T>, ChangeListener<T>> asyncChangeListenerLookup = new IdentityHashMap<>();
 	private final List<ChangeListener<T>> changeListeners = new ArrayList<>();
 	@SuppressWarnings("rawtypes") // has to be raw for generic usage to compile, cannot use '?'
 	private final Set<Observable> bindReceivers = Collections.newSetFromMap(new IdentityHashMap<>());
@@ -88,12 +91,32 @@ public abstract class AbstractObservable<T> implements Observable<T> {
 	@Override
 	public void addChangeListener(ChangeListener<T> listener) {
 		Objects.requireNonNull(listener, "Listener must not be null");
-		changeListeners.add(listener);
+		if (!changeListeners.contains(listener))
+			changeListeners.add(listener);
+	}
+
+	@Override
+	public void addAsyncChangeListener(ChangeListener<T> listener, ExecutorService executor) {
+		Objects.requireNonNull(listener, "Listener must not be null");
+		Objects.requireNonNull(executor, "Executor service must not be null");
+
+		if (!asyncChangeListenerLookup.containsKey(listener)) {
+			ChangeListener<T> asyncListener = (observable, oldValue, newValue) -> {
+				CompletableFuture.runAsync(() -> listener.changed(observable, oldValue, newValue), executor);
+			};
+			asyncChangeListenerLookup.put(listener, asyncListener);
+			changeListeners.add(asyncListener);
+		}
 	}
 
 	@Override
 	public boolean removeChangeListener(ChangeListener<T> listener) {
-		return changeListeners.remove(listener);
+		ChangeListener<T> asyncListener = asyncChangeListenerLookup.remove(listener);
+		if (asyncListener != null) {
+			return changeListeners.remove(asyncListener);
+		} else {
+			return changeListeners.remove(listener);
+		}
 	}
 
 
